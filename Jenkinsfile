@@ -7,7 +7,6 @@ node {
                 archiveArtifacts artifacts: 'log.txt', allowEmptyArchive: true
             }
         }
-
         stage('Test') {
             try {
                 sh './jenkins/scripts/test.sh > log.txt 2>&1'
