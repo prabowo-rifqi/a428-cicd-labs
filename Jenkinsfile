@@ -14,5 +14,19 @@ node {
                 archiveArtifacts artifacts: 'log.txt', allowEmptyArchive: true
             }
         }
+        stage('Deploy') {
+            try {
+                stage('Deploy') {
+                    sh './jenkins/scripts/deliver.sh'
+
+                    input message: 'Sudah selesai menggunakan React App? (Klik "Proceed" untuk mengakhiri)'
+
+                    sh './jenkins/scripts/kill.sh'
+                }
+            } catch (Exception e) {
+                currentBuild.result = 'FAILURE'
+                throw e
+            }
+        }
     }
 }
