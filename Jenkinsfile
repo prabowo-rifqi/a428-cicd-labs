@@ -14,15 +14,19 @@ node {
                 archiveArtifacts artifacts: 'log.txt', allowEmptyArchive: true
             }
         }
+        stage('Manual Approval') {
+            input message: 'Lanjutkan ke tahap Deploy?', ok: 'Proceed', parameters: [
+                choice(name: 'Action', choices: ['Proceed', 'Abort'], description: 'Pilih apakah ingin melanjutkan ke tahap Deploy atau menghentikan eksekusi pipeline')
+            ]
+        }
         stage('Deploy') {
             try {
-                stage('Deploy') {
-                    sh './jenkins/scripts/deliver.sh'
+                sh './jenkins/scripts/deliver.sh'
 
-                    input message: 'Sudah selesai menggunakan React App? (Klik "Proceed" untuk mengakhiri)'
+                echo "Aplikasi berhasil dideploy. Menunggu selama 1 menit sebelum melanjutkan..."
+                sh 'sleep 60'
 
-                    sh './jenkins/scripts/kill.sh'
-                }
+                sh './jenkins/scripts/kill.sh'
             } catch (Exception e) {
                 currentBuild.result = 'FAILURE'
                 throw e
