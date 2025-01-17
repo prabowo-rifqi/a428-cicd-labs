@@ -19,14 +19,22 @@ node {
                 choice(name: 'Action', choices: ['Proceed', 'Abort'], description: 'Pilih apakah ingin melanjutkan ke tahap Deploy atau menghentikan eksekusi pipeline')
             ]
         }
-        stage('Deploy') {
+         stage('Deploy') {
             try {
+                // Pastikan file deliver.sh berada dalam folder 'scripts'
                 sh './jenkins/scripts/deliver.sh'
 
-                echo "Aplikasi berhasil dideploy. Menunggu selama 1 menit sebelum melanjutkan..."
-                sh 'sleep 60'
+                // Setelah build selesai, lakukan transfer file ke server AWS
+                sh 'scp -i /home/rifqi/ssh -r ./build/ ubuntu@<54.169.12.75>:/home/ubuntu/my-react-app/'
 
-                sh './jenkins/scripts/kill.sh'
+                // SSH ke server AWS dan jalankan aplikasi React
+                sh 'ssh -i /path/to/your-aws-key.pem ubuntu@<your-aws-server-ip> << EOF\n' +
+                    'cd /home/ubuntu/my-react-app\n' +
+                    'npm install --production\n' +
+                    'npm run start &\n' +  // Menjalankan aplikasi React dalam mode produksi
+                    'EOF'
+
+                echo "Aplikasi berhasil dideploy di server AWS."
             } catch (Exception e) {
                 currentBuild.result = 'FAILURE'
                 throw e
