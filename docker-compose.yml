@@ -10,7 +10,7 @@ services:
     working_dir: /app
     command: >
       bash -c "
-        ./jenkins/scripts/deliver.sh"  # Menjalankan skrip deliver.sh
+        ./jenkins/scripts/deliver.sh"
     environment:
       - NODE_ENV=production
     restart: always
