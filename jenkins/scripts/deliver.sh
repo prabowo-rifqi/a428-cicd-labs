@@ -14,5 +14,3 @@ npm start &
 sleep 1
 echo $! > .pidfile
 set +x
-
-echo 'Aplikasi dapat diakses melalui http://localhost:80'
