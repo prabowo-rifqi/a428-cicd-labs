@@ -19,10 +19,10 @@ node {
                 choice(name: 'Action', choices: ['Proceed', 'Abort'], description: 'Pilih apakah ingin melanjutkan ke tahap Deploy atau menghentikan eksekusi pipeline')
             ]
         }
-         stage('Deploy') {
+        stage('Deploy') {
             try {
                 // Pastikan file deliver.sh berada dalam folder 'scripts'
-                sh './jenkins/scripts/deliver.sh'
+                // sh './jenkins/scripts/deliver.sh'
 
                 // Setelah build selesai, lakukan transfer file ke server AWS
                 sh 'scp -i /home/rifqi/ssh -r ./build/ ubuntu@<54.169.12.75>:/home/ubuntu/my-react-app/'
