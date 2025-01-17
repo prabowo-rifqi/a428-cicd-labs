@@ -25,7 +25,7 @@ node {
                 // sh './jenkins/scripts/deliver.sh'
 
                 // Setelah build selesai, lakukan transfer file ke server AWS
-                sh 'scp -i /home/rifqi/ssh -r ./build/ ubuntu@<54.169.12.75>:/home/ubuntu/my-react-app/'
+                sh 'scp -i /home/ssh -r ./build/ ubuntu@<54.169.12.75>:/home/ubuntu/my-react-app/'
 
                 // SSH ke server AWS dan jalankan aplikasi React
                 sh 'ssh -i /path/to/your-aws-key.pem ubuntu@<your-aws-server-ip> << EOF\n' +
