@@ -22,7 +22,22 @@ node {
         stage('Deploy') {
             try {
                 // Install SSH dan SCP di dalam container
-                sh 'rm -rf /var/lib/apt/lists/* && apt-get update && apt-get install -y openssh-client'
+                sh 'apt-get update && apt-get install -y openssh-client'
+
+                withCredentials([sshUserPrivateKey(credentialsId: '8b0b5e66-4b7d-4887-953c-6b114a06cb90', keyFileVariable: 'AWS_SSH_KEY', usernameVariable: 'SSH_USER')]) {
+                    // Setelah build selesai, lakukan transfer file ke server AWS
+                    sh 'scp -i $AWS_SSH_KEY -r ./build/ $SSH_USER@54.169.12.75:/path/to/destination'
+
+                    // SSH ke server AWS dan jalankan aplikasi React
+                    sh 'ssh -i $AWS_SSH_KEY $SSH_USER@54.169.12.75 << EOF\n' +
+                        'cd /home/ubuntu/my-react-app\n' +
+                        'npm install --production\n' +
+                        'npm run start &\n' +
+                        'EOF'
+
+                    echo "Aplikasi berhasil dideploy di server AWS."
+                }
+
                 // Pastikan file deliver.sh berada dalam folder 'scripts'
                 // sh './jenkins/scripts/deliver.sh'
 
