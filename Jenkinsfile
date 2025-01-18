@@ -2,7 +2,7 @@ node {
     docker.image('node:16-buster-slim').inside('--network host -p 3000:3000 --user root') {
         stage('Build') {
             try {
-                sh 'npm install --prefer-offline --no-audit --progress=false > log.txt 2>&1'
+                sh 'npm install > log.txt 2>&1'
             } finally {
                 archiveArtifacts artifacts: 'log.txt', allowEmptyArchive: true
             }
