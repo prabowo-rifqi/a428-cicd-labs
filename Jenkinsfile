@@ -27,7 +27,7 @@ node {
                 withCredentials([sshUserPrivateKey(credentialsId: '8b0b5e66-4b7d-4887-953c-6b114a06cb90', keyFileVariable: 'AWS_SSH_KEY', usernameVariable: 'SSH_USER')]) {
 
                     // Menambahkan kunci host AWS ke known_hosts untuk menghindari "Host key verification failed"
-                    sh 'mkdir -p ~/.ssh && ssh-keyscan -H 54.169.12.75 >> ~/.ssh/known_hosts'
+                    sh 'mkdir -p ~/.ssh && ssh-keyscan -H 54.169.12.75 >> ~/.ssh/known_hosts && cat ~/.ssh/known_hosts'
 
                     // Transfer file dengan SCP ke server AWS (Pastikan Anda mentransfer hasil build)
                     sh 'scp -i $AWS_SSH_KEY -r ./build/* $SSH_USER@54.169.12.75:/home/ubuntu/my-react-app/'
