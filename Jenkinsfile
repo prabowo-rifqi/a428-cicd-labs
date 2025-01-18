@@ -33,10 +33,8 @@ node {
 
                     // SSH ke server AWS dan jalankan aplikasi React
                     sh 'ssh -i $AWS_SSH_KEY $SSH_USER@54.169.12.75 << EOF\n' +
-                        'cd /home/ubuntu/my-react-app\n' +
-                        'npm install --production\n' +
-                        'npm run start &\n' +
-                        'EOF'
+                       'sudo cp -r /home/ubuntu/my-react-app/build/* /var/www/my-react-app/\n'
+                       'EOF'
 
                     echo "Aplikasi berhasil dideploy di server AWS."
                 }
