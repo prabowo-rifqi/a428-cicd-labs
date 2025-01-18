@@ -14,11 +14,11 @@ node {
                 archiveArtifacts artifacts: 'log.txt', allowEmptyArchive: true
             }
         }
-        stage('Manual Approval') {
-            input message: 'Lanjutkan ke tahap Deploy?', ok: 'Proceed', parameters: [
-                choice(name: 'Action', choices: ['Proceed', 'Abort'], description: 'Pilih apakah ingin melanjutkan ke tahap Deploy atau menghentikan eksekusi pipeline')
-            ]
-        }
+//         stage('Manual Approval') {
+//             input message: 'Lanjutkan ke tahap Deploy?', ok: 'Proceed', parameters: [
+//                 choice(name: 'Action', choices: ['Proceed', 'Abort'], description: 'Pilih apakah ingin melanjutkan ke tahap Deploy atau menghentikan eksekusi pipeline')
+//             ]
+//         }
         stage('Deploy') {
             try {
                 // Install SSH dan SCP di dalam container
