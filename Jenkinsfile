@@ -36,7 +36,6 @@ node {
                     sh 'ssh -i $AWS_SSH_KEY $SSH_USER@54.169.12.75 << EOF\n' +
                         'sudo rm -rf /var/www/my-react-app/*' +
                         'sudo mv /home/ubuntu/my-react-app/* /var/www/my-react-app/\n' +
-                        'cd /var/www/my-react-app\n' +
                         'sudo systemctl restart nginx\n' +
                         'ssh -i $AWS_SSH_KEY $SSH_USER@54.169.12.75 "tail -n 100 /var/log/my-react-app.log"' +
                         'EOF'
