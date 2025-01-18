@@ -24,7 +24,7 @@ node {
                 // Install SSH dan SCP di dalam container
                 sh 'apt-get update && apt-get install -y openssh-client'
 
-                withCredentials([sshUserPrivateKey(credentialsId: 'your-credential-id', keyFileVariable: 'AWS_SSH_KEY', usernameVariable: 'SSH_USER')]) {
+                withCredentials([sshUserPrivateKey(credentialsId: '8b0b5e66-4b7d-4887-953c-6b114a06cb90', keyFileVariable: 'AWS_SSH_KEY', usernameVariable: 'SSH_USER')]) {
                     // Tambahkan kunci host AWS ke known_hosts untuk menghindari "Host key verification failed"
                     sh 'ssh-keyscan -H 54.169.12.75 >> ~/.ssh/known_hosts'
 
