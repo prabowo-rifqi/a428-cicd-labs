@@ -21,6 +21,8 @@ node {
         }
         stage('Deploy') {
             try {
+                // Install SSH dan SCP di dalam container
+                sh 'apt-get update && apt-get install -y openssh-client'
                 // Pastikan file deliver.sh berada dalam folder 'scripts'
                 // sh './jenkins/scripts/deliver.sh'
 
