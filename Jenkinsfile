@@ -3,8 +3,9 @@ node {
         stage('Build') {
             try {
                 sh 'npm install > log.txt 2>&1'
+                sh 'npm run build > build_log.txt 2>&1'  // Tambahkan langkah untuk membangun aplikasi
             } finally {
-                archiveArtifacts artifacts: 'log.txt', allowEmptyArchive: true
+                archiveArtifacts artifacts: 'log.txt, build_log.txt', allowEmptyArchive: true
             }
         }
         stage('Test') {
@@ -14,11 +15,6 @@ node {
                 archiveArtifacts artifacts: 'log.txt', allowEmptyArchive: true
             }
         }
-//         stage('Manual Approval') {
-//             input message: 'Lanjutkan ke tahap Deploy?', ok: 'Proceed', parameters: [
-//                 choice(name: 'Action', choices: ['Proceed', 'Abort'], description: 'Pilih apakah ingin melanjutkan ke tahap Deploy atau menghentikan eksekusi pipeline')
-//             ]
-//         }
         stage('Deploy') {
             try {
                 // Install SSH dan SCP di dalam container
@@ -31,9 +27,9 @@ node {
                     // Transfer file dengan SCP ke path tujuan di server AWS
                     sh 'scp -i $AWS_SSH_KEY -r ./build/ $SSH_USER@54.169.12.75:/home/ubuntu/my-react-app/'
 
-                    // SSH ke server AWS dan jalankan aplikasi React
+                    // SSH ke server AWS dan pindahkan hasil build ke folder yang tepat
                     sh 'ssh -i $AWS_SSH_KEY $SSH_USER@54.169.12.75 << EOF\n' +
-                       'sudo cp -r /home/ubuntu/my-react-app/build/* /var/www/my-react-app/\n'
+                       'sudo cp -r /home/ubuntu/my-react-app/build/* /var/www/my-react-app/\n' +
                        'EOF'
 
                     echo "Aplikasi berhasil dideploy di server AWS."
