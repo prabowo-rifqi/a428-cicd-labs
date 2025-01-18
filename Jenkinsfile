@@ -1,5 +1,5 @@
 node {
-    docker.image('node:16-buster-slim').inside('--network host -p 3000:3000') {
+    docker.image('node:16-buster-slim').inside('--network host -p 3000:3000 --user root') {
         stage('Build') {
             try {
                 sh 'npm install > log.txt 2>&1'
@@ -22,7 +22,7 @@ node {
         stage('Deploy') {
             try {
                 // Install SSH dan SCP di dalam container
-                sh 'apt-get update && apt-get install -y openssh-client'
+                sh 'rm -rf /var/lib/apt/lists/* && apt-get update && apt-get install -y openssh-client'
                 // Pastikan file deliver.sh berada dalam folder 'scripts'
                 // sh './jenkins/scripts/deliver.sh'
 
