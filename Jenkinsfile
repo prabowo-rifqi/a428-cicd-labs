@@ -1,5 +1,5 @@
 node {
-    docker.image('node:lts-buster-slim').inside('--network host -p 3000:3000 --user root') {
+    docker.image('node:16-buster-slim').inside('--network host -p 3000:3000 --user root') {
         stage('Build') {
             try {
                 sh 'npm install > log.txt 2>&1'
