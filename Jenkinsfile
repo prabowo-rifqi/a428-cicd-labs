@@ -19,9 +19,7 @@ node {
             }
         }
         stage('Manual Approval') {
-            steps {
-                input message: 'Lanjutkan ke tahap Deploy?', ok: 'Proceed', cancel: 'Abort'
-            }
+            input message: 'Lanjutkan ke tahap Deploy?', ok: 'Proceed', cancel: 'Abort'
         }
         stage('Deploy') {
                 sh './jenkins/scripts/deliver.sh'
