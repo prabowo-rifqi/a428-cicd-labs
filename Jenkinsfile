@@ -28,7 +28,6 @@ node {
                 echo "Pipeline akan dijeda selama 1 menit..."
                 sleep time: 1, unit: 'MINUTES'
                 sh './jenkins/scripts/kill.sh'
-            }
         }
 //         stage('Deploy') {
 //             try {
